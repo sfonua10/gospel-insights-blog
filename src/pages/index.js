@@ -19,46 +19,43 @@ const PostImage = styled.div`
 const PostText = styled.div`
   flex: 75%;
 `
-class BlogIndex extends React.Component {
-  render() {
-    const { data } = this.props
-    const siteTitle = data.site.siteMetadata.title
-    const posts = data.allContentfulPost.edges
+const BlogIndex = ({data, location}) => {
+  const siteTitle = data.site.siteMetadata.title
+  const posts = data.allContentfulPost.edges
 
-    return (
-      <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="All posts" />
-        <Bio />
-        {posts.map(({ node }) => {
-          const title = node.title || node.slug
-          return (
-            <Post key={node.slug}>
-                <PostImage>
-                {
-                  node&& node.image && node.image.fluid && <Img fluid={node.image.fluid} />
-                }
-                </PostImage>
-                <PostText>
-                <h3
-                  style={{
-                    marginTop: 0,
-                    marginBottom: rhythm(1 / 4),
-                  }}
-                >
-                  <Link style={{ boxShadow: `none` }} to={node.slug}>
-                    {title}
-                  </Link>
-                </h3>
-                <section>
-                    <p>{node.subtitle}</p>
-                </section>
-                </PostText>
-            </Post>
-          )
-        })}
-      </Layout>
-    )
-  }
+  return (
+    <Layout location={location} title={siteTitle}>
+      <SEO title="All posts" />
+      <Bio />
+      {posts.map(({ node }) => {
+        const title = node.title || node.slug
+        return (
+          <Post key={node.slug}>
+            <PostImage>
+              {node && node.image && node.image.fluid && (
+                <Img fluid={node.image.fluid} />
+              )}
+            </PostImage>
+            <PostText>
+              <h3
+                style={{
+                  marginTop: 0,
+                  marginBottom: rhythm(1 / 4),
+                }}
+              >
+                <Link style={{ boxShadow: `none` }} to={node.slug}>
+                  {title}
+                </Link>
+              </h3>
+              <section>
+                <p>{node.subtitle}</p>
+              </section>
+            </PostText>
+          </Post>
+        )
+      })}
+    </Layout>
+  )
 }
 
 export default BlogIndex
